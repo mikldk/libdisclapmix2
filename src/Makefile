@@ -3,7 +3,7 @@ LIBDISCLAPMIX_SRCS = *.cpp
 LIBDISCLAPMIX_OBJECTS = *.o
 LIBDISCLAPMIX_CFLAGS = -fPIC -I/usr/include/eigen3 -O3 -DEIGEN_NO_DEBUG
 
-all: $(LIBDISCLAPMIX_PROJECT)
+all: $(LIBDISCLAPMIX_PROJECT) libdisclapmix.so
 
 .cpp.o:
 		g++ -O3 -c $(LIBDISCLAPMIX_CFLAGS) $(LIBDISCLAPMIX_EXTRA_FLAGS) $(LIBDISCLAPMIX_SRCS)
@@ -11,6 +11,10 @@ all: $(LIBDISCLAPMIX_PROJECT)
 
 $(LIBDISCLAPMIX_PROJECT): $(LIBDISCLAPMIX_OBJECTS)
 		$(AR) $(ARFLAGS) libdisclapmix.a $(LIBDISCLAPMIX_OBJECTS)
+##		$(LD) $(LDFLAGS) -shared libdisclapmix.a $(LIBDISCLAPMIX_OBJECTS)
+
+libdisclapmix.so:
+		g++ -O3 $(LIBDISCLAPMIX_CFLAGS) $(LIBDISCLAPMIX_EXTRA_FLAGS) $(LIBDISCLAPMIX_SRCS) -shared -o libdisclapmix.so
 
 clean:
-	rm -rf *.o *.a
+	rm -rf *.o *.a *.so
